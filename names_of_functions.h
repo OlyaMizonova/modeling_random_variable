@@ -19,3 +19,5 @@ double fac(int n);
 double Gamm(double a);
 
 double funcForHi(double x, double r);
+
+vector<int> getXs(int N, int M, int r, int n);

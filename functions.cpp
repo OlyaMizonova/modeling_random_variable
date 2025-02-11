@@ -14,7 +14,7 @@ double fac(int n) {
 }
 
 double Gamm(double a) {
-	if (a == 1) {
+	if (a == 1.) {
 		return 1;
 	}
 	if (a == 0.5) {
@@ -29,26 +29,60 @@ double funcForHi(double x, double r) {
 	if (x <= 0) {
 		return 0;
 	}
-	return pow(2, -(r / 2.)) * pow(Gamm(r / 2.), -1) * pow(x, (-r / 2. - 1)) * exp(-x / 2.);
+	double a = pow(2, -(r / 2.));
+	double b = pow((Gamm(r / 2.)), -1);
+	double c = pow(x, (r / 2. - 1));
+	double d = exp(-x / 2.);
+	return a*b*c*d;//pow(2, -(r / 2.)) * pow(floor(Gamm(r / 2.)), -1) * pow(x, (r / 2. - 1)) * exp(-x / 2.);
+}
+vector<int> getXs(int N, int M, int r, int n) {
+	vector<int>xi;
+	int low_brdr = max(0, r + M - N);
+	int high_brdr = min(M, r);
+	for (int i = 0; i < n; i++) {
+		//vector<double> ran(r);
+		int M_curr = M, N_curr = N;
+		double t, probab = double(M) / N;
+		double model_k = 0;//количество перегоревших
+		for (int j = 0; j < r; j++) {
+			t = double(rand()) / RAND_MAX;
+			if (t < probab) {
+				if (M_curr > 0) { M_curr--; }
+				model_k++;
+			}
+			if (N_curr > 1) {
+				N_curr--;
+			}
+			probab = double(M_curr) / N_curr;
+		}
+		xi.push_back(model_k);
+	}
+	sort(xi.begin(), xi.end());
+	return xi;
 }
 
-void getTable1st(vector<double>&p, vector<int>&ns, vector<int>&ys, vector<int>&xs, int N, int M, int r, int n) {//реальные вероятности
+void getTable1st(vector<double>&pp, vector<int>&nss, vector<int>&yss, vector<int>&xss, int N, int M, int r, int n)	 {//реальные вероятности
 																											//количество каждого значения св в выборке
 																											//все возможные значения св
 																											//все значения св в выборке
 	srand(time(0));
+	vector<double>pi;
+	vector<int>xi;
+	vector<int>yi;
+	vector<int>ni;
 	int low_brdr = max(0, r + M - N);
 	int high_brdr = min(M, r);
 	int number_of_k = high_brdr - low_brdr + 1;
 	int k = low_brdr;
 	double c = (fac(M) * fac(N - M) * fac(r) * fac(N - r)) / fac(N);
 	for (int i = 0; i < number_of_k; i++) { //считаем реальные вероятности
-		p[i] = c / (fac(k) * fac(M - k) * fac(r - k) * fac(N - M - r + k));
+		pi.push_back(c / (fac(k) * fac(M - k) * fac(r - k) * fac(N - M - r + k)));
 		k++;
 	}
+	pp = pi;
 	for (int i = 0; i < number_of_k; i++) { // заполняем множество возможных значений св
-		ys[i] = low_brdr + i;
-		ns[i] = 0;
+		yi.push_back(low_brdr + i);
+		ni.push_back(0);
 	}
 	for (int i = 0; i < n; i++) {
 		//vector<double> ran(r);
@@ -60,18 +94,18 @@ void getTable1st(vector<double>&p, vector<int>&ns, vector<int>&ys, vector<int>&x
 			if (t < probab) {
 				if (M_curr > 0) { M_curr--; }
 				model_k++;
-				probab = double(M_curr) / N_curr;
 			}
 			if (N_curr > 1) {
 				N_curr--;
 			}
+			probab = double(M_curr) / N_curr;
 		}
 		if (model_k<low_brdr || model_k>high_brdr) {
 			i--;
 		}
 		else {
-			xs.push_back(model_k);
-			ns[model_k-low_brdr]++;
+			xi.push_back(model_k);
+			ni[model_k-low_brdr]++;
 		}
 	}
 	//double sum = 0;
@@ -89,7 +123,10 @@ void getTable1st(vector<double>&p, vector<int>&ns, vector<int>&ys, vector<int>&x
 	//		sum += p[i];
 	//		k += 1;
 	//	}
-	sort(xs.begin(), xs.end());
+	sort(xi.begin(), xi.end());
+	xss = xi;
+	nss = ni;
+	yss = yi;
 }
 
 void getTable2nd(int*ks, double* x_mid, double *Dn, double *S, double *R, double *Me,vector<double>& p, vector<int>& ns, vector<int>& ys, vector<int>& xs, int N, int M, int r, int n) {//наиболее вероятное, 
@@ -137,11 +174,10 @@ void getTable2nd(int*ks, double* x_mid, double *Dn, double *S, double *R, double
 	*S /= n;
 
 	*R = xs[n - 1] - xs[0];
-	//cout << "\nR = " << R;
 
 	*Me = 0;
 	if (n % 2 == 1) {
-		*Me = xs[n / 2 + 1];
+		*Me = xs[n / 2];
 	}
 	else {
 		*Me = double(xs[n / 2 + 1] + xs[n / 2]) / 2;

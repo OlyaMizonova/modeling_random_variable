@@ -1,5 +1,9 @@
 #pragma once
 #include"names_of_functions.h"
+extern std::vector<int>ns;
+extern std::vector<int>ys;
+extern std::vector<int>xs;
+extern std::vector<double> p;
 
 namespace lab2TerVerForm {
 
@@ -56,7 +60,7 @@ namespace lab2TerVerForm {
 	private: System::Windows::Forms::Label^ maxDiffer;
 
 	private: System::Windows::Forms::PictureBox^ graphicTrue;
-	private: System::Windows::Forms::PictureBox^ graphicExp;
+
 	private: System::Windows::Forms::PictureBox^ Fn;
 	private: System::Windows::Forms::PictureBox^ Fn2;
 	private: System::Windows::Forms::Label^ setD;
@@ -71,6 +75,9 @@ namespace lab2TerVerForm {
 	private: System::Windows::Forms::Label^ set_R0;
 	private: System::Windows::Forms::Label^ F_R00;
 	private: System::Windows::Forms::Label^ takeornot;
+	private: System::Windows::Forms::Label^ F0_is_eq_to;
+	private: System::Windows::Forms::PictureBox^ pictureBlue;
+	private: System::Windows::Forms::PictureBox^ pictureGreen;
 
 
 
@@ -113,7 +120,6 @@ namespace lab2TerVerForm {
 			this->pictureBox1 = (gcnew System::Windows::Forms::PictureBox());
 			this->maxDiffer = (gcnew System::Windows::Forms::Label());
 			this->graphicTrue = (gcnew System::Windows::Forms::PictureBox());
-			this->graphicExp = (gcnew System::Windows::Forms::PictureBox());
 			this->Fn = (gcnew System::Windows::Forms::PictureBox());
 			this->Fn2 = (gcnew System::Windows::Forms::PictureBox());
 			this->setD = (gcnew System::Windows::Forms::Label());
@@ -128,15 +134,19 @@ namespace lab2TerVerForm {
 			this->set_R0 = (gcnew System::Windows::Forms::Label());
 			this->F_R00 = (gcnew System::Windows::Forms::Label());
 			this->takeornot = (gcnew System::Windows::Forms::Label());
+			this->F0_is_eq_to = (gcnew System::Windows::Forms::Label());
+			this->pictureBlue = (gcnew System::Windows::Forms::PictureBox());
+			this->pictureGreen = (gcnew System::Windows::Forms::PictureBox());
 			(cli::safe_cast<System::ComponentModel::ISupportInitialize^>(this->table1st))->BeginInit();
 			(cli::safe_cast<System::ComponentModel::ISupportInitialize^>(this->table2nd))->BeginInit();
 			(cli::safe_cast<System::ComponentModel::ISupportInitialize^>(this->table3rd))->BeginInit();
 			(cli::safe_cast<System::ComponentModel::ISupportInitialize^>(this->pictureBox1))->BeginInit();
 			(cli::safe_cast<System::ComponentModel::ISupportInitialize^>(this->graphicTrue))->BeginInit();
-			(cli::safe_cast<System::ComponentModel::ISupportInitialize^>(this->graphicExp))->BeginInit();
 			(cli::safe_cast<System::ComponentModel::ISupportInitialize^>(this->Fn))->BeginInit();
 			(cli::safe_cast<System::ComponentModel::ISupportInitialize^>(this->Fn2))->BeginInit();
 			(cli::safe_cast<System::ComponentModel::ISupportInitialize^>(this->tableQs))->BeginInit();
+			(cli::safe_cast<System::ComponentModel::ISupportInitialize^>(this->pictureBlue))->BeginInit();
+			(cli::safe_cast<System::ComponentModel::ISupportInitialize^>(this->pictureGreen))->BeginInit();
 			this->SuspendLayout();
 			// 
 			// task
@@ -204,7 +214,8 @@ namespace lab2TerVerForm {
 			this->get_n->Name = L"get_n";
 			this->get_n->Size = System::Drawing::Size(100, 20);
 			this->get_n->TabIndex = 6;
-			this->get_n->Text = L"50";
+			this->get_n->Text = L"1000";
+			this->get_n->TextChanged += gcnew System::EventHandler(this, &MyForm::get_n_TextChanged);
 			// 
 			// get_NN
 			// 
@@ -213,6 +224,7 @@ namespace lab2TerVerForm {
 			this->get_NN->Size = System::Drawing::Size(100, 20);
 			this->get_NN->TabIndex = 7;
 			this->get_NN->Text = L"10";
+			this->get_NN->TextChanged += gcnew System::EventHandler(this, &MyForm::get_NN_TextChanged);
 			// 
 			// get_M
 			// 
@@ -221,6 +233,7 @@ namespace lab2TerVerForm {
 			this->get_M->Size = System::Drawing::Size(100, 20);
 			this->get_M->TabIndex = 8;
 			this->get_M->Text = L"4";
+			this->get_M->TextChanged += gcnew System::EventHandler(this, &MyForm::get_M_TextChanged);
 			// 
 			// get_r
 			// 
@@ -229,6 +242,7 @@ namespace lab2TerVerForm {
 			this->get_r->Size = System::Drawing::Size(100, 20);
 			this->get_r->TabIndex = 9;
 			this->get_r->Text = L"5";
+			this->get_r->TextChanged += gcnew System::EventHandler(this, &MyForm::get_r_TextChanged);
 			// 
 			// firstTask
 			// 
@@ -305,17 +319,9 @@ namespace lab2TerVerForm {
 			// 
 			this->graphicTrue->Location = System::Drawing::Point(31, 407);
 			this->graphicTrue->Name = L"graphicTrue";
-			this->graphicTrue->Size = System::Drawing::Size(319, 304);
+			this->graphicTrue->Size = System::Drawing::Size(537, 298);
 			this->graphicTrue->TabIndex = 17;
 			this->graphicTrue->TabStop = false;
-			// 
-			// graphicExp
-			// 
-			this->graphicExp->Location = System::Drawing::Point(364, 407);
-			this->graphicExp->Name = L"graphicExp";
-			this->graphicExp->Size = System::Drawing::Size(319, 304);
-			this->graphicExp->TabIndex = 18;
-			this->graphicExp->TabStop = false;
 			// 
 			// Fn
 			// 
@@ -388,7 +394,7 @@ namespace lab2TerVerForm {
 			this->get_k->Name = L"get_k";
 			this->get_k->Size = System::Drawing::Size(100, 20);
 			this->get_k->TabIndex = 25;
-			this->get_k->Text = L"4";
+			this->get_k->Text = L"1";
 			this->get_k->Visible = false;
 			// 
 			// get_zs
@@ -397,11 +403,13 @@ namespace lab2TerVerForm {
 			this->get_zs->Name = L"get_zs";
 			this->get_zs->Size = System::Drawing::Size(180, 20);
 			this->get_zs->TabIndex = 26;
-			this->get_zs->Text = L"1 2 3";
+			this->get_zs->Text = L"3";
 			this->get_zs->Visible = false;
 			// 
 			// tableQs
 			// 
+			this->tableQs->AllowUserToAddRows = false;
+			this->tableQs->AllowUserToDeleteRows = false;
 			this->tableQs->BackgroundColor = System::Drawing::SystemColors::Window;
 			this->tableQs->BorderStyle = System::Windows::Forms::BorderStyle::None;
 			this->tableQs->ColumnHeadersHeightSizeMode = System::Windows::Forms::DataGridViewColumnHeadersHeightSizeMode::AutoSize;
@@ -426,7 +434,7 @@ namespace lab2TerVerForm {
 			this->get_a->Name = L"get_a";
 			this->get_a->Size = System::Drawing::Size(100, 20);
 			this->get_a->TabIndex = 29;
-			this->get_a->Text = L"0,7";
+			this->get_a->Text = L"0,5";
 			this->get_a->Visible = false;
 			// 
 			// set_R0
@@ -458,12 +466,49 @@ namespace lab2TerVerForm {
 			this->takeornot->TabIndex = 32;
 			this->takeornot->Visible = false;
 			// 
+			// F0_is_eq_to
+			// 
+			this->F0_is_eq_to->AutoSize = true;
+			this->F0_is_eq_to->Font = (gcnew System::Drawing::Font(L"Microsoft Sans Serif", 11.25F, System::Drawing::FontStyle::Regular, System::Drawing::GraphicsUnit::Point,
+				static_cast<System::Byte>(204)));
+			this->F0_is_eq_to->Location = System::Drawing::Point(31, 618);
+			this->F0_is_eq_to->Name = L"F0_is_eq_to";
+			this->F0_is_eq_to->Size = System::Drawing::Size(16, 18);
+			this->F0_is_eq_to->TabIndex = 33;
+			this->F0_is_eq_to->Text = L"0";
+			this->F0_is_eq_to->Visible = false;
+			// 
+			// pictureBlue
+			// 
+			this->pictureBlue->Image = (cli::safe_cast<System::Drawing::Image^>(resources->GetObject(L"pictureBlue.Image")));
+			this->pictureBlue->Location = System::Drawing::Point(122, 351);
+			this->pictureBlue->Name = L"pictureBlue";
+			this->pictureBlue->Size = System::Drawing::Size(75, 39);
+			this->pictureBlue->SizeMode = System::Windows::Forms::PictureBoxSizeMode::StretchImage;
+			this->pictureBlue->TabIndex = 34;
+			this->pictureBlue->TabStop = false;
+			this->pictureBlue->Visible = false;
+			// 
+			// pictureGreen
+			// 
+			this->pictureGreen->Image = (cli::safe_cast<System::Drawing::Image^>(resources->GetObject(L"pictureGreen.Image")));
+			this->pictureGreen->Location = System::Drawing::Point(469, 360);
+			this->pictureGreen->Name = L"pictureGreen";
+			this->pictureGreen->Size = System::Drawing::Size(73, 15);
+			this->pictureGreen->SizeMode = System::Windows::Forms::PictureBoxSizeMode::StretchImage;
+			this->pictureGreen->TabIndex = 35;
+			this->pictureGreen->TabStop = false;
+			this->pictureGreen->Visible = false;
+			// 
 			// MyForm
 			// 
 			this->AutoScaleDimensions = System::Drawing::SizeF(6, 13);
 			this->AutoScaleMode = System::Windows::Forms::AutoScaleMode::Font;
 			this->BackColor = System::Drawing::SystemColors::Window;
 			this->ClientSize = System::Drawing::Size(1038, 733);
+			this->Controls->Add(this->pictureGreen);
+			this->Controls->Add(this->pictureBlue);
+			this->Controls->Add(this->F0_is_eq_to);
 			this->Controls->Add(this->takeornot);
 			this->Controls->Add(this->F_R00);
 			this->Controls->Add(this->set_R0);
@@ -478,7 +523,6 @@ namespace lab2TerVerForm {
 			this->Controls->Add(this->setD);
 			this->Controls->Add(this->Fn2);
 			this->Controls->Add(this->Fn);
-			this->Controls->Add(this->graphicExp);
 			this->Controls->Add(this->graphicTrue);
 			this->Controls->Add(this->maxDiffer);
 			this->Controls->Add(this->pictureBox1);
@@ -498,15 +542,17 @@ namespace lab2TerVerForm {
 			this->Controls->Add(this->task);
 			this->Name = L"MyForm";
 			this->Text = L"MyForm";
+			this->Load += gcnew System::EventHandler(this, &MyForm::MyForm_Load);
 			(cli::safe_cast<System::ComponentModel::ISupportInitialize^>(this->table1st))->EndInit();
 			(cli::safe_cast<System::ComponentModel::ISupportInitialize^>(this->table2nd))->EndInit();
 			(cli::safe_cast<System::ComponentModel::ISupportInitialize^>(this->table3rd))->EndInit();
 			(cli::safe_cast<System::ComponentModel::ISupportInitialize^>(this->pictureBox1))->EndInit();
 			(cli::safe_cast<System::ComponentModel::ISupportInitialize^>(this->graphicTrue))->EndInit();
-			(cli::safe_cast<System::ComponentModel::ISupportInitialize^>(this->graphicExp))->EndInit();
 			(cli::safe_cast<System::ComponentModel::ISupportInitialize^>(this->Fn))->EndInit();
 			(cli::safe_cast<System::ComponentModel::ISupportInitialize^>(this->Fn2))->EndInit();
 			(cli::safe_cast<System::ComponentModel::ISupportInitialize^>(this->tableQs))->EndInit();
+			(cli::safe_cast<System::ComponentModel::ISupportInitialize^>(this->pictureBlue))->EndInit();
+			(cli::safe_cast<System::ComponentModel::ISupportInitialize^>(this->pictureGreen))->EndInit();
 			this->ResumeLayout(false);
 			this->PerformLayout();
 
@@ -516,7 +562,7 @@ namespace lab2TerVerForm {
 		enter_a->Visible = false;
 		get_a->Visible = false;
 		graphicTrue->Visible = false;
-		graphicExp->Visible = false;
+		//graphicExp->Visible = false;
 		table2nd->Visible = false;
 		table3rd->Visible = false;
 		table1st->Visible = true;
@@ -533,6 +579,9 @@ namespace lab2TerVerForm {
 		set_R0->Visible = false;
 		F_R00->Visible = false;
 		takeornot->Visible = false;
+		F0_is_eq_to->Visible = false;
+		pictureBlue->Visible = false;
+		pictureGreen->Visible = false;
 		table1st->Rows->Clear();
 		table1st->Columns->Clear();
 		int n = Convert::ToInt32(get_n->Text);
@@ -542,24 +591,25 @@ namespace lab2TerVerForm {
 		int low_brdr = max(0, r + M - N);
 		int high_brdr = min(M, r);
 		int number_of_k = high_brdr - low_brdr + 1;
-		vector<double> p(number_of_k);
-		vector<int>ns(number_of_k);
-		vector<int>ys(number_of_k);
-		vector<int>xs;
 		getTable1st(p, ns, ys, xs, N, M, r, n);
+		table1st->Columns->Add("a", " ");
 		for (int i = 0; i < number_of_k; i++) {
 			table1st->Columns->Add(Convert::ToString(i),"k"+ Convert::ToString(i));
 		}
 		table1st->Rows->Add();
 		table1st->Rows->Add();
 		table1st->Rows->Add();
-		for (int i = 0; i < number_of_k; i++) {
-			table1st->Rows[0]->Cells[i]->Value = ys[i];
-			table1st->Rows[1]->Cells[i]->Value = ns[i];
-			table1st->Rows[2]->Cells[i]->Value = (double(ns[i])/n);
+		table1st->Rows[0]->Cells[0]->Value = "ys";
+		table1st->Rows[1]->Cells[0]->Value = "ns";
+		table1st->Rows[2]->Cells[0]->Value = "ns / n";
+		for (int i = 1; i <= number_of_k; i++) {
+			table1st->Rows[0]->Cells[i]->Value = ys[i-1];
+			table1st->Rows[1]->Cells[i]->Value = ns[i-1];
+			table1st->Rows[2]->Cells[i]->Value = (double(ns[i-1])/n);
 		}
 		table1st->CurrentCell->Selected = false;
 	}
+
 private: System::Void secondTask_Click(System::Object^ sender, System::EventArgs^ e) {
 	Fn->Visible = true;
 	Fn2->Visible = true;
@@ -580,9 +630,11 @@ private: System::Void secondTask_Click(System::Object^ sender, System::EventArgs
 	set_R0->Visible = false;
 	F_R00->Visible = false;
 	takeornot->Visible = false;
-
+	F0_is_eq_to->Visible = false;
 	graphicTrue->Visible = true;
-	graphicExp->Visible = true;
+	pictureBlue->Visible = true;
+	pictureGreen->Visible = true;
+	//graphicExp->Visible = true;
 
 	int n = Convert::ToInt32(get_n->Text);
 	int N = Convert::ToInt32(get_NN->Text);
@@ -591,11 +643,6 @@ private: System::Void secondTask_Click(System::Object^ sender, System::EventArgs
 	int low_brdr = max(0, r + M - N);
 	int high_brdr = min(M, r);
 	int number_of_k = high_brdr - low_brdr + 1;
-	vector<double> p(number_of_k);
-	vector<int>ns(number_of_k);
-	vector<int>ys(number_of_k);
-	vector<int>xs;
-	getTable1st(p, ns, ys, xs, N, M, r, n);
 
 	int ks;
 	double Dn, x_mid, S, R, Me;
@@ -611,16 +658,20 @@ private: System::Void secondTask_Click(System::Object^ sender, System::EventArgs
 
 	table2nd->Rows->Add(Convert::ToString(ks),Convert::ToString(x_mid), Convert::ToString(abs(ks-x_mid)), Convert::ToString(Dn), 
 		Convert::ToString(S), Convert::ToString(abs(S-Dn)), Convert::ToString(Me), Convert::ToString(R));
+	table3rd->Columns->Add("names"," ");
 	for (int i = 0; i < number_of_k; i++) {
 		table3rd->Columns->Add(Convert::ToString(i), "k" + Convert::ToString(i));
 	}
 	table3rd->Rows->Add();
 	table3rd->Rows->Add();
 	table3rd->Rows->Add();
-	for (int i = 0; i < number_of_k; i++) {
-		table3rd->Rows[0]->Cells[i]->Value = ys[i];
-		table3rd->Rows[1]->Cells[i]->Value = p[i];
-		table3rd->Rows[2]->Cells[i]->Value = (double(ns[i]) / n);
+	table3rd->Rows[0]->Cells[0]->Value = "yi";
+	table3rd->Rows[1]->Cells[0]->Value = "pi";
+	table3rd->Rows[2]->Cells[0]->Value = "ni/n";
+	for (int i = 1; i <= number_of_k; i++) {
+		table3rd->Rows[0]->Cells[i]->Value = ys[i-1];
+		table3rd->Rows[1]->Cells[i]->Value = p[i-1];
+		table3rd->Rows[2]->Cells[i]->Value = (double(ns[i-1]) / n);
 	}
 	//table3rd->CurrentCell->Selected = false;
 	table2nd->CurrentCell->Selected = false;
@@ -692,8 +743,9 @@ private: System::Void secondTask_Click(System::Object^ sender, System::EventArgs
 	g->DrawLine(axisPen, 0, height * 5. / 6, width, height * 5. / 6); // Ось X
 	g->DrawLine(axisPen, 50, 0, 50, height);  // Ось Y
 
-	// Рисуем график функции y = sin(x)
+
 	Pen^ graphPen = gcnew Pen(Color::Blue, 2);
+	Pen^ graphPen1 = gcnew Pen(Color::Green, 2);
 	double x = xMin;
 	for (int i = 0; i < 2 * number_of_k + 4; i += 2)
 	{
@@ -709,38 +761,6 @@ private: System::Void secondTask_Click(System::Object^ sender, System::EventArgs
 		//g->DrawLine(graphPen,  screenX2, screenY2,screenX3, screenY3);
 		x += step;
 	}
-
-
-
-
-	// Создаем объект графики для PictureBox
-	Graphics^ g1 = graphicExp->CreateGraphics();
-	g1->Clear(System::Drawing::Color::White); // Очищаем PictureBox
-
-	// Определяем область рисования
-	width = graphicExp->Width;
-	height = graphicExp->Height;
-
-	// Определяем масштаб
-	scaleX = 0.1 / 4;  // Масштаб по оси X (для преобразования пикселей в единицы функции)
-	scaleY = 180;   // Масштаб по оси Y (для увеличения амплитуды)
-
-	// Определяем диапазон X
-	xMin = -1;
-	xMax = number_of_k + 3;
-	step = 1.;  // Шаг по оси X
-
-	for (double x = 50.; x < width; x += 1. / scaleX) g1->DrawLine(Pens::Gray, x, 0, x, height); //grid
-	for (double x = 50.; x >= 0; x -= 1. / scaleX) g1->DrawLine(Pens::Gray, x, 0, x, height); //grid
-	for (double x = height * 5. / 6; x < height; x += 1. * scaleY)  g1->DrawLine(Pens::Gray, 0, x, width, x);
-	for (double x = height * 5. / 6; x >= 0; x -= 1. * scaleY)  g1->DrawLine(Pens::Gray, 0, x, width, x);
-
-	// Рисуем оси
-	Pen^ axisPen1 = gcnew Pen(Color::Black, 2);
-	g1->DrawLine(axisPen1, 0, height * 5. / 6, width, height * 5. / 6); // Ось X
-	g1->DrawLine(axisPen1, 50, 0, 50, height);  // Ось Y
-
-	// Рисуем график функции y = sin(x)
 	x = xMin;
 	for (int i = 0; i < 2 * number_of_k + 4; i += 2)
 	{
@@ -752,13 +772,14 @@ private: System::Void secondTask_Click(System::Object^ sender, System::EventArgs
 		int screenY2 = (int)(height * 5. / 6 - toDrawY2[i + 1] * scaleY);
 
 		// Рисуем линию между двумя точками
-		g1->DrawLine(graphPen, screenX1, screenY1, screenX2, screenY2);
+		g->DrawLine(graphPen1, screenX1, screenY1, screenX2, screenY2);
 		x += step;
 	}
 }
+
 private: System::Void button1_Click_1(System::Object^ sender, System::EventArgs^ e) {
 	graphicTrue->Visible = false;
-	graphicExp->Visible = false;
+	//graphicExp->Visible = false;
 	table2nd->Visible = false;
 	table3rd->Visible = false;
 	table1st->Visible = true;
@@ -779,6 +800,8 @@ private: System::Void button1_Click_1(System::Object^ sender, System::EventArgs^
 	table1st->Visible = true;
 	enter_a->Visible = true;
 	get_a->Visible = true;
+	pictureBlue->Visible = false;
+	pictureGreen->Visible = false;
 
 	table1st->Rows->Clear();
 	table1st->Columns->Clear();
@@ -790,61 +813,68 @@ private: System::Void button1_Click_1(System::Object^ sender, System::EventArgs^
 	int low_brdr = max(0, r + M - N);
 	int high_brdr = min(M, r);
 	int number_of_k = high_brdr - low_brdr + 1;
-	vector<double> p(number_of_k);
 	int kay = low_brdr;
-	vector<int>ns(number_of_k);
-	vector<int>ys(number_of_k);
-	vector<int>xs;
-	getTable1st(p, ns, ys, xs, N, M, r, n);
+	table1st->Columns->Add("a", " ");
 	for (int i = 0; i < number_of_k; i++) {
 		table1st->Columns->Add(Convert::ToString(i), "k" + Convert::ToString(i));
 	}
 	table1st->Rows->Add();
 	table1st->Rows->Add();
 	table1st->Rows->Add();
-	for (int i = 0; i < number_of_k; i++) {
-		table1st->Rows[0]->Cells[i]->Value = ys[i];
-		table1st->Rows[1]->Cells[i]->Value = ns[i];
-		table1st->Rows[2]->Cells[i]->Value = (double(ns[i]) / n);
+	table1st->Rows[0]->Cells[0]->Value = "ys";
+	table1st->Rows[1]->Cells[0]->Value = "ns";
+	table1st->Rows[2]->Cells[0]->Value = "ns / n";
+	for (int i = 1; i <= number_of_k; i++) {
+		table1st->Rows[0]->Cells[i]->Value = ys[i-1];
+		table1st->Rows[1]->Cells[i]->Value = ns[i-1];
+		table1st->Rows[2]->Cells[i]->Value = (double(ns[i-1]) / n);
 	}
 	table1st->CurrentCell->Selected = false;
+
+
 
 	int k = Convert::ToInt32(get_k->Text);
 	String^ str = get_zs->Text;
 	str = Convert::ToString(str);
 	cli::array<String^>^ Str = str->Split(' ');
+
+	//один раз
 	vector<double>zs;
 	vector<double>qs(k);
+	double a = Convert::ToDouble(get_a->Text);
+	//много раз
 	vector<int>nj(k);
+
+	//once
 	zs.push_back(-1);
 	int itForZ = 0;
 	for (int i = 0; i < k-1; i++) {
 		zs.push_back(Convert::ToDouble(Str[i]));
 	}
+	zs.push_back(high_brdr + 1);
 	for (int i = 0; i < size(zs) - 1; i++) {
 		qs[i] = 0;
 		nj[i] = 0;
 	}
-	zs.push_back(high_brdr + 1);
+
+
 	for (int i = 0; i < n; i++) {
 		if (itForZ + 1 == size(zs)) {
 			break;
 		}
 		if (xs[i] >= zs[itForZ] && xs[i] < zs[itForZ + 1]) {
-			//qs[itForZ] += p[xs[i] - low_brdr];
 			nj[itForZ]++;
 		}
-		else if(xs[i]>=zs[itForZ+1]) {
+		else if (xs[i] >= zs[itForZ + 1]) {
 			itForZ++;
 			i--;
 		}
 	}
-	for (int i = 0; i < size(zs)-1; i++) {
-		kay = low_brdr;//вмесtо кау xs[i]
-		while (kay <= zs[i + 1]&&kay<=high_brdr) {
+	for (int i = 0; i < size(zs) - 1; i++) {
+		kay = low_brdr;
+		while (kay <= zs[i + 1] && kay <= high_brdr) {
 			if (zs[i] <= kay && kay < zs[i + 1]) {
-				qs[i]+=p[kay-low_brdr];
-				//nj[i]++;
+				qs[i] += p[kay - low_brdr];
 			}
 			kay++;
 		}
@@ -857,29 +887,179 @@ private: System::Void button1_Click_1(System::Object^ sender, System::EventArgs^
 		tableQs->Rows[0]->Cells[i]->Value = qs[i];
 	}
 
-	double a = Convert::ToDouble(get_a->Text);
 	double R0 = 0.;
-	for (int i = 0; i < k; i++) {
+	for (int i = 0; i < k; i++) {//тут начала с 0
 		R0 += pow((nj[i] - n * qs[i]), 2) / (n * qs[i]);
 	}
 	set_R0->Text = "R0 = " + Convert::ToString(R0);
 	set_R0->Visible = true;
 
 	double F_R0 = 0.;
-	kay = low_brdr;
-	for (int i = 1; i <= n; i++) {
-		F_R0 += funcForHi(R0 * double(i - 1) / n, k - 1)+ funcForHi(R0 * double(i) / (n), k - 1);
-		kay++;
+	if (k == 1) {
+		F_R0 = 1;
 	}
-	F_R0 = 1 - F_R0*R0/(2*n);
-	F_R00->Text = "F(R0) = "+Convert::ToString(F_R0);
-	F_R00->Visible = true;
+	else {
+		kay = low_brdr;
+		int numb = 100000;
+		for (int i = 0; i <= numb; i++) {
+			F_R0 += funcForHi(R0 * double(i - 1) / numb, k - 1) + funcForHi(R0 * double(i) / (numb), k - 1);
+			kay++;
+		}
+		F_R0 = F_R0 * R0 / (2 * numb);
+	}
 	takeornot->Visible = true;
+	F_R00->Visible = true;
+	F_R00->Text = "F0 = " + Convert::ToString(F_R0);
 	if (F_R0 < a) {
 		takeornot->Text = "Принимаем гипотезу";
 	}
 	else {
 		takeornot->Text = "Не принимаем гипотезу";
+	}
+
+
+
+
+	vector<double>ff;
+	int getted = 0, rejected = 0;
+	for (int w = 0; w < 100; w++) {
+		vector<int>xi = getXs(N, M, r, n);
+		itForZ = 0;
+		for (int i = 0; i < size(zs) - 1; i++) {
+			qs[i] = 0;
+			nj[i] = 0;
+		}
+		for (int i = 0; i < n; i++) {
+			if (itForZ + 1 == size(zs)) {
+				break;
+			}
+			if (xi[i] >= zs[itForZ] && xi[i] < zs[itForZ + 1]) {
+				nj[itForZ]++;
+			}
+			else if (xi[i] >= zs[itForZ + 1]) {
+				itForZ++;
+				i--;
+			}
+		}
+		for (int i = 0; i < size(zs) - 1; i++) {
+			kay = low_brdr;
+			while (kay <= zs[i + 1] && kay <= high_brdr) {
+				if (zs[i] <= kay && kay < zs[i + 1]) {
+					qs[i] += p[kay - low_brdr];
+				}
+				kay++;
+			}
+		}
+		double R0 = 0.;
+		for (int i = 0; i < k; i++) {//тут начала с 0
+			R0 += pow((nj[i] - n * qs[i]), 2) / (n * qs[i]);
+		}
+
+		double F_R0 = 0.;
+		if (k == 1) {
+			F_R0 = 1;
+		}
+		else {
+			kay = low_brdr;
+			for (int i = 1; i <= n; i++) {
+				F_R0 += funcForHi(R0 * double(i - 1) / n, k - 1) + funcForHi(R0 * double(i) / (n), k - 1);
+				kay++;
+			}
+			F_R0 = F_R0 * R0 / (2 * n);
+		}
+		ff.push_back(R0);
+		if (F_R0 < 1 - a) {
+			getted++;
+		}
+		else {
+			rejected++;
+		}
+	}
+
+		F0_is_eq_to->Text = "Проведено 100 проверок, из них " + Convert::ToString(getted)+" раз гипотеза принята и "+ Convert::ToString(rejected)+" раз отклонена";
+		F0_is_eq_to->Visible = true;
+		//takeornot->Visible = true;
+		/*if (F_R0 < a) {
+			takeornot->Text = "Принимаем гипотезу";
+		}
+		else {
+			takeornot->Text = "Не принимаем гипотезу";
+		}*/
+}
+private: System::Void MyForm_Load(System::Object^ sender, System::EventArgs^ e) {
+	int n = Convert::ToInt32(get_n->Text);
+	int N = Convert::ToInt32(get_NN->Text);
+	int M = Convert::ToInt32(get_M->Text);
+	int r = Convert::ToInt32(get_r->Text);
+	int low_brdr = max(0, r + M - N);
+	int high_brdr = min(M, r);
+	int number_of_k = high_brdr - low_brdr + 1;
+	getTable1st(p, ns, ys, xs, N, M, r, n);
+}
+private: System::Void get_n_TextChanged(System::Object^ sender, System::EventArgs^ e) {
+	try {
+		int n = Convert::ToInt32(get_n->Text);
+		int N = Convert::ToInt32(get_NN->Text);
+		int M = Convert::ToInt32(get_M->Text);
+		int r = Convert::ToInt32(get_r->Text);
+		int low_brdr = max(0, r + M - N);
+		int high_brdr = min(M, r);
+		int number_of_k = high_brdr - low_brdr + 1;
+		getTable1st(p, ns, ys, xs, N, M, r, n);
+	}
+	catch (Exception^e) {
+		;
+	}
+}
+private: System::Void get_NN_TextChanged(System::Object^ sender, System::EventArgs^ e) {
+	try {
+		int n = Convert::ToInt32(get_n->Text);
+		int N = Convert::ToInt32(get_NN->Text);
+		int M = Convert::ToInt32(get_M->Text);
+		int r = Convert::ToInt32(get_r->Text);
+		if (N>=M&&N>=r) {
+			int low_brdr = max(0, r + M - N);
+			int high_brdr = min(M, r);
+			int number_of_k = high_brdr - low_brdr + 1;
+			getTable1st(p, ns, ys, xs, N, M, r, n);
+		}
+	}
+	catch (Exception^ e) {
+		;
+	}
+}
+private: System::Void get_M_TextChanged(System::Object^ sender, System::EventArgs^ e) {
+	try {
+		int n = Convert::ToInt32(get_n->Text);
+		int N = Convert::ToInt32(get_NN->Text);
+		int M = Convert::ToInt32(get_M->Text);
+		int r = Convert::ToInt32(get_r->Text);
+		if (N >= M && N >= r) {
+			int low_brdr = max(0, r + M - N);
+			int high_brdr = min(M, r);
+			int number_of_k = high_brdr - low_brdr + 1;
+			getTable1st(p, ns, ys, xs, N, M, r, n);
+		}
+	}
+	catch (Exception^ e) {
+		;
+	}
+}
+private: System::Void get_r_TextChanged(System::Object^ sender, System::EventArgs^ e) {
+	try {
+		int n = Convert::ToInt32(get_n->Text);
+		int N = Convert::ToInt32(get_NN->Text);
+		int M = Convert::ToInt32(get_M->Text);
+		int r = Convert::ToInt32(get_r->Text);
+		if (N >= M && N >= r) {
+			int low_brdr = max(0, r + M - N);
+			int high_brdr = min(M, r);
+			int number_of_k = high_brdr - low_brdr + 1;
+			getTable1st(p, ns, ys, xs, N, M, r, n);
+		}
+	}
+	catch (Exception^ e) {
+		;
 	}
 }
 };
